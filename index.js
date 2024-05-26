@@ -10,7 +10,8 @@ const Blog = require('./Blog');
 
 app.get('/', (req, res) => {
     console.log(req);
-    res.send('Hello, World!');
+    console.log('Helo world from console.');
+    res.send('Hello, World!2');
 });
 
 app.get('/projects', async (req, res) => {

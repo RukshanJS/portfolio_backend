@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+app.use(express.json());
 const port = 5000;
 // This is the entry point of the application
 
@@ -29,6 +30,22 @@ app.get('/blogs', async (req, res) => {
         res.json(blogs);
     } catch (err) {
         res.status(500).json({ message: err.message });
+    }
+});
+
+app.post('/projects', async (req, res) => {
+    //Get Output to console
+    console.log(req.body);
+
+    //send data to Frontend
+    //res.send('Hello from Backend');
+
+    const project = new Project(req.body);
+    try {
+        const newProjects = await project.save();
+        res.status(201).json(newProjects);
+    } catch (err) {
+        res.status(400).json({ message: err.message });
     }
 });
 

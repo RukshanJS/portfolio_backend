@@ -50,6 +50,39 @@ app.post('/projects', async (req, res) => {
     }
 });
 
+// Update a project by id
+app.patch('/projects/:id', async (req, res) => {
+    const { id: _id } = req.params;
+    const project = req.body;
+
+    const updatedProject = await Project.findByIdAndUpdate(
+        _id,
+        { $set: project },
+        { new: true }
+    );
+
+    res.json(updatedProject);
+});
+
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}/`);
 });
+
+// DEelete projectby id
+app.delete('/projects/:id', async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const project = await Project.findByIdAndDelete(id);
+
+        if (!project) {
+            return res.status(404).json({ message: 'Project not found' });
+        }
+
+        res.json({ message: 'Deleted project' });
+    } catch (error) {
+        console.error('Error deleting project:', error);
+        res.status(500).json({ message: 'Failed to delete project' });
+    }
+});
+
